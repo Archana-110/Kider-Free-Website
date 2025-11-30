@@ -20,6 +20,7 @@ if (!isset($_SESSION['logged_in'])) {
             <a class="navbar-brand" href="#">Dashboard</a>
             <div class="navbar-nav ms-auto">
                 <span class="navbar-text me-3">Welcome, <?= htmlspecialchars($_SESSION['first_name']) ?>!</span>
+                <a class="nav-link" href="profile.php">Profile</a>
                 <a class="nav-link" href="logout.php">Logout</a>
             </div>
         </div>
