@@ -1,3 +1,50 @@
+<?php
+require_once __DIR__ . '/db_config.php';
+
+// If POST, handle login first (no output sent yet)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!csrf_verify($_POST['_csrf'] ?? '')) {
+        $_SESSION['error'] = 'Invalid request.';
+        header('Location: login.php');
+        exit();
+    }
+
+    $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
+    $password = $_POST['password'] ?? '';
+
+    // Validate credentials
+    $stmt = $conn->prepare("SELECT id, password, first_name FROM users WHERE email = ?");
+    if ($stmt) {
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result && $result->num_rows === 1) {
+            $user = $result->fetch_assoc();
+            if (password_verify($password, $user['password'])) {
+                // Prevent session fixation
+                session_regenerate_id(true);
+                $_SESSION['user_id'] = (int)$user['id'];
+                $_SESSION['email'] = $email;
+                $_SESSION['first_name'] = $user['first_name'];
+                $_SESSION['logged_in'] = true;
+
+                header("Location: dashboard.php");
+                exit();
+            }
+        }
+    } else {
+        error_log('DB prepare failed (login): ' . $conn->error);
+    }
+
+    // Invalid credentials
+    $_SESSION['error'] = 'Invalid email or password';
+    header('Location: login.php');
+    exit();
+}
+
+// If GET, show form
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,11 +94,12 @@
                             <p class="text-center text-muted mb-4">Login to continue your journey</p>
                             
                             <!-- Error Message -->
-                            <?php if(isset($_SESSION['error'])): ?>
-                            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+                            <?php if(!empty($_SESSION['error'])): ?>
+                            <div class="alert alert-danger"><?= htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></div>
                             <?php endif; ?>
 
                             <form id="loginForm" action="login.php" method="POST">
+                                <input type="hidden" name="_csrf" value="<?= htmlspecialchars(csrf_token()); ?>">
                                 <div class="mb-3">
                                     <label class="form-label">Email</label>
                                     <div class="input-group">
@@ -87,39 +135,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<?php
-session_start();
-require 'db_config.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $password = $_POST['password'];
-
-    // Validate credentials
-    $stmt = $conn->prepare("SELECT id, password, first_name FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 1) {
-        $user = $result->fetch_assoc();
-        
-        if (password_verify($password, $user['password'])) {
-            // Set session variables
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['email'] = $email;
-            $_SESSION['first_name'] = $user['first_name'];
-            $_SESSION['logged_in'] = true;
-
-            // Redirect to dashboard
-            header("Location: dashboard.php");
-            exit();
-        }
-    }
-
-    // Invalid credentials
-    $_SESSION['error'] = "Invalid email or password";
-    header("Location: login.php");
-    exit();
-}
-?>

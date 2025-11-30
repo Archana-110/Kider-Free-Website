@@ -1,6 +1,6 @@
 <?php
-session_start();
-require_once 'db_config.php';
+// Central session/DB bootstrap
+require_once __DIR__ . '/db_config.php';
 
 if (!isset($_SESSION['logged_in'])) {
     header("Location: login.php");

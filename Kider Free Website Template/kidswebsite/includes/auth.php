@@ -1,8 +1,13 @@
 <?php
-session_start();
-require_once 'db_config.php';
+// Use central db/session bootstrap
+require_once __DIR__ . '/../db_config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!csrf_verify($_POST['_csrf'] ?? '')) {
+        $_SESSION['error'] = 'Invalid request.';
+        header('Location: register.php');
+        exit();
+    }
     // Trim and basic sanitize inputs
     $firstName = trim((string)($_POST['firstName'] ?? ''));
     $lastName = trim((string)($_POST['lastName'] ?? ''));

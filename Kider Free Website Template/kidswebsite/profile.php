@@ -1,6 +1,6 @@
 <?php
-session_start();
-require_once 'db_config.php';
+// Central session/DB bootstrap
+require_once __DIR__ . '/db_config.php';
 
 if (!isset($_SESSION['logged_in']) || empty($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -13,10 +13,13 @@ $error = '';
 
 // Handle profile update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $firstName = trim($_POST['firstName'] ?? '');
-    $lastName = trim($_POST['lastName'] ?? '');
-    $gender = $_POST['gender'] ?? '';
-    $newPassword = $_POST['new_password'] ?? '';
+    if (!csrf_verify($_POST['_csrf'] ?? '')) {
+        $error = 'Invalid request.';
+    } else {
+        $firstName = trim($_POST['firstName'] ?? '');
+        $lastName = trim($_POST['lastName'] ?? '');
+        $gender = $_POST['gender'] ?? '';
+        $newPassword = $_POST['new_password'] ?? '';
 
     $errors = [];
     if ($firstName === '') $errors[] = 'First name is required.';
@@ -53,8 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (!empty($errors)) {
-        $error = implode('<br>', $errors);
+        if (!empty($errors)) {
+            $error = implode('<br>', $errors);
+        }
     }
 }
 
@@ -98,13 +102,14 @@ $stmt->close();
         <h2>Your Profile</h2>
 
         <?php if ($success): ?>
-            <div class="alert alert-success"><?= $success ?></div>
+            <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
         <?php endif; ?>
         <?php if ($error): ?>
-            <div class="alert alert-danger"><?= $error ?></div>
+            <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
         <form method="POST" class="mt-3 needs-validation" novalidate id="profileForm">
+            <input type="hidden" name="_csrf" value="<?= htmlspecialchars(csrf_token()); ?>">
             <div class="mb-3">
                 <label class="form-label">First name</label>
                 <input type="text" name="firstName" class="form-control" value="<?= htmlspecialchars($user['first_name']) ?>" required>
