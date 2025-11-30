@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Science Quizzes for Kids! 🌟</title>
+    <link rel="stylesheet" href="science.css">
+        
+</head>
+<body>
+     <!-- Audio Elements -->
+     <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-times-158.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="correctSound">
+        <source src="https://assets.mixkit.co/active_preview/mixkit-correct-answer-tone-2870.wav" type="audio/wav">
+    </audio>
+    <audio id="wrongSound">
+        <source src="https://assets.mixkit.co/active_preview/mixkit-wrong-answer-fail-notification-946.wav" type="audio/wav">
+    </audio>
+    <div class="quiz-container">
+        <h1>🌍 Science Fun Quiz Time! 🚀</h1>
+        
+        <div class="score-board">
+            <h3>⭐ Your Stars: <span id="score">0</span></h3>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+        
+
+        <!-- Multiple Choice Quiz -->
+        <div class="quiz-section">
+            <div class="question">1. Which animal says "Moo"? 🐮</div>
+            <div class="emoji-feedback" id="feedback1"></div>
+            <div class="options">
+                <button class="option-btn " onclick="checkAnswer('feedback1', true)">Cow</button>
+                <button class="option-btn" onclick="checkAnswer('feedback1', false)">Duck</button>
+                <button class="option-btn" onclick="checkAnswer('feedback1', false)">Cat</button>
+            </div>
+        </div>
+
+        <!-- Image-based Quiz -->
+        <div class="quiz-section">
+            <div class="question">2. Click on the plant 🌱</div>
+            <div class="emoji-feedback" id="feedback2"></div>
+            <div class="image-quiz">
+                <div class="animal-card" onclick="checkImageAnswer('feedback2', false)">
+                    <img src="images/dog.png" alt="Dog"height="200px">
+                </div>
+                <div class="animal-card" onclick="checkImageAnswer('feedback2', true)">
+                    <img src="images/plant.jpeg" alt="Plant">
+                </div>
+                <div class="animal-card" onclick="checkImageAnswer('feedback2', false)">
+                    <img src="images/cat.jpeg" alt="Cat">
+                </div>
+            </div>
+        </div>
+
+        <!-- True/False Quiz -->
+        <div class="quiz-section">
+            <div class="question">3. The sun is cold. True or False? 🌞</div>
+            <div class="emoji-feedback" id="feedback3"></div>
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer('feedback3', false)">True</button>
+                <button class="option-btn" onclick="checkAnswer('feedback3', true)">False</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        const totalQuestions = 3;
+
+        function checkAnswer(feedbackId, isCorrect) {
+            const feedback = document.getElementById(feedbackId);
+            if(isCorrect) {
+                feedback.innerHTML = "🎉 Correct! Great job! 🌟";
+                score += 1;
+                document.getElementById('score').textContent = score;
+                updateProgress();
+            } else {
+                feedback.innerHTML = "❌ Oops! Try again! 💡";
+            }
+        }
+
+        function checkImageAnswer(feedbackId, isCorrect) {
+            const feedback = document.getElementById(feedbackId);
+            if(isCorrect) {
+                feedback.innerHTML = "🌱 Perfect! Plants are living things! 🌿";
+                score += 1;
+                document.getElementById('score').textContent = score;
+                updateProgress();
+            } else {
+                feedback.innerHTML = "🐾 That's an animal! Try again!";
+            }
+        }
+
+        function updateProgress() {
+            const progress = (score / totalQuestions) * 100;
+            document.querySelector('.progress-fill').style.width = `${progress}%`;
+        }
+    </script>
+</body>
+</html>

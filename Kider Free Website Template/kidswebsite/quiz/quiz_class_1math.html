@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Math Quiz for Kids!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="1mathstyle.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+<body>
+    <audio id="correctSound" src="/quiz/sounds/correct.mp3"></audio>
+    <audio id="wrongSound" src="/quiz/sounds/wrong.mp3"></audio>
+    <audio id="bgMusic" loop src="/quiz/sounds/bg.mp3"></audio>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="quiz-container">
+                    <img src="images/burger.png" class="mascot floating" alt="Happy Mascot">
+                    <div class="d-flex justify-content-between">
+                        <div class="score-board">🌟 <span id="score">0</span></div>
+                        <div class="timer">⏳ <span id="timer">30</span>s</div>
+                    </div>
+                    <div id="question" class="question text-center animate__animated animate__bounceIn"></div>
+                    <div class="options row justify-content-center"></div>
+                    <div id="feedback" class="text-center mt-3"></div>
+                    <button id="nextBtn" class="btn btn-primary mt-3 d-none mx-auto animate__animated">Next Question 🚀</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="lion-container">
+        <img src="images/lion.png" class="lion-image" alt="Waving Lion">
+    </div>
+    
+        <script>
+        const sounds = {
+            correct: new Howl({ src: ['sounds/correct.mp3'] }),
+            wrong: new Howl({ src: ['sounds/wrong.mp3'] }),
+            bgMusic: new Howl({
+                src: ['sounds/bg.mp3'],
+                loop: true,
+                volume: 0.3
+            })
+        };
+
+        let currentQuestion = null;
+        let score = 0;
+        let timeLeft = 30;
+        let timerId = null;
+        let answered = false; // Added answer lock
+        const operations = ['+', '-'];
+
+        // Start background music
+        sounds.bgMusic.play();
+
+        function createConfetti() {
+            for(let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.querySelector('.quiz-container').appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        function generateQuestion() {
+            const operation = operations[Math.floor(Math.random() * operations.length)];
+            let num1, num2, answer;
+            
+            if(operation === '+') {
+                num1 = Math.floor(Math.random() * 10) + 1;
+                num2 = Math.floor(Math.random() * 10) + 1;
+                answer = num1 + num2;
+            } else {
+                num2 = Math.floor(Math.random() * 10) + 1;
+                num1 = num2 + Math.floor(Math.random() * 10);
+                answer = num1 - num2;
+            }
+            
+            return {
+                question: `${num1} ${operation} ${num2} = ?`,
+                answer: answer,
+                options: generateOptions(answer)
+            };
+        }
+
+        function generateOptions(correctAnswer) {
+            let options = [correctAnswer];
+            while(options.length < 3) {
+                let randomNum = correctAnswer + Math.floor(Math.random() * 5) - 2;
+                if(randomNum !== correctAnswer && randomNum > 0 && !options.includes(randomNum)) {
+                    options.push(randomNum);
+                }
+            }
+            return options.sort(() => Math.random() - 0.5);
+        }
+
+        function displayQuestion() {
+            answered = false; // Reset answer lock
+            currentQuestion = generateQuestion();
+            $('#question').text(currentQuestion.question);
+            $('.options').empty();
+            
+            currentQuestion.options.forEach(option => {
+                $('.options').append(`
+                    <div class="col-5 col-md-3 text-center option">
+                        ${option}
+                    </div>
+                `);
+            });
+
+            resetTimer();
+            $('#feedback').empty().removeClass('text-danger text-success');
+            $('#nextBtn').addClass('d-none');
+            $('#question').addClass('animate__bounceIn');
+        }
+
+        function resetTimer() {
+            timeLeft = 30;
+            $('#timer').text(timeLeft);
+            clearInterval(timerId);
+            timerId = setInterval(() => {
+                timeLeft--;
+                $('#timer').text(timeLeft);
+                if(timeLeft <= 0) {
+                    clearInterval(timerId);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        function handleTimeOut() {
+            $('#feedback').html(`<div class="text-danger">Time's up! The correct answer was ${currentQuestion.answer}</div>`);
+            $('#nextBtn').removeClass('d-none');
+        }
+
+        $(document).ready(function() {
+            displayQuestion();
+
+            // Music toggle button
+            $('body').prepend(`
+                <button id="musicToggle" class="btn btn-warning btn-sm position-fixed" style="top:10px; right:10px">
+                    🔈 Music On
+                </button>
+            `);
+
+            let musicOn = true;
+            $('#musicToggle').click(() => {
+                musicOn = !musicOn;
+                $('#musicToggle').html(musicOn ? '🔈 Music On' : '🔇 Music Off');
+                musicOn ? sounds.bgMusic.play() : sounds.bgMusic.pause();
+            });
+
+            // Answer selection handler
+            $(document).on('click', '.option', function() {
+                if(timeLeft <= 0 || answered) return; // Prevent multiple answers
+                answered = true; // Lock answer
+                clearInterval(timerId);
+                const selectedAnswer = parseInt($(this).text());
+                const isCorrect = selectedAnswer === currentQuestion.answer;
+                
+                $('.option').each(function() {
+                    const optionValue = parseInt($(this).text());
+                    if(optionValue === currentQuestion.answer) {
+                        $(this).addClass('correct');
+                    } else if(optionValue === selectedAnswer) {
+                        $(this).addClass('wrong');
+                    }
+                });
+
+                if(isCorrect) {
+                    score += 10;
+                    $('#score').text(score);
+                    $('#feedback').html('<div class="text-success">Correct! Well done! 🎉</div>');
+                    createConfetti();
+                    $('.mascot').addClass('animate__tada');
+                    setTimeout(() => $('.mascot').removeClass('animate__tada'), 1000);
+                    sounds.correct.play();
+                } else {
+                    $('#feedback').html(`<div class="text-danger">Oops! Correct answer is ${currentQuestion.answer}</div>`);
+                    $('.mascot').addClass('animate__shakeX');
+                    setTimeout(() => $('.mascot').removeClass('animate__shakeX'), 1000);
+                    sounds.wrong.play();
+                }
+
+                $('#nextBtn').removeClass('d-none');
+            });
+
+            $('#nextBtn').click(function() {
+                displayQuestion();
+            });
+        });
+    </script>
+</body>
+</html>

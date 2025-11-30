@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainbow Alchemy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --red: #FF6B6B;
+            --blue: #4ECDC4;
+            --yellow: #FFD93D;
+            --purple: #A66CFF;
+            --green: #7DCEA0;
+            --orange: #FF9A76;
+            --pink: #FF87B2;
+            --teal: #6ED3CF;
+            --magenta: #FF69B4;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fff0f5 0%, #f0f8ff 100%);
+            min-height: 100vh;
+            font-family: 'Comic Neue', cursive;
+            overflow-x: hidden;
+        }
+
+        .game-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-blob {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            position: absolute;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .mix-area {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 4px dashed #ADB5BD;
+            margin: 2rem auto;
+            position: relative;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            background-image: radial-gradient(circle, #ffffff 10%, transparent 10%);
+            background-size: 20px 20px;
+        }
+
+        .mix-area.active {
+            border-color: var(--purple);
+            background: rgba(248, 240, 255, 0.9);
+            animation: glow 1.5s infinite alternate;
+        }
+
+        .color-station {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+        }
+
+        .base-color {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            cursor: move;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .base-color:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(166, 108, 255, 0.3); }
+            to { box-shadow: 0 0 30px rgba(166, 108, 255, 0.6); }
+        }
+
+        .result-bubble {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            position: absolute;
+            animation: bubble 0.5s ease-out, float 3s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        @keyframes bubble {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .fact-card {
+            background: linear-gradient(45deg, #ffffff, #f8f9fa);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .sparkles {
+            position: absolute;
+            pointer-events: none;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffffff"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>');
+            background-size: contain;
+            animation: sparkle 1s ease-out;
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(2); }
+        }
+
+        .gradient-btn {
+            background: linear-gradient(45deg, var(--purple), var(--pink));
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .gradient-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(166, 108, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="text-center mb-4 rainbow-text">🌈 Rainbow Alchemy ✨</h1>
+        
+        <div class="score-board text-center mb-4">
+            <div class="d-flex justify-content-center gap-4">
+                <div class="badge bg-primary">✨ Combinations: <span id="score">0</span></div>
+                <div class="badge bg-success">⏱ Time: <span id="timer">00:00</span></div>
+            </div>
+        </div>
+
+        <div class="color-station">
+            <div class="base-color bg-danger" data-color="red" draggable="true">🔴</div>
+            <div class="base-color bg-primary" data-color="blue" draggable="true">🔵</div>
+            <div class="base-color bg-warning" data-color="yellow" draggable="true">🟡</div>
+            <div class="base-color bg-success" data-color="green" draggable="true">🟢</div>
+        </div>
+
+        <div class="mix-area" id="mixArea">
+            <div class="text-center text-muted h-100 d-flex align-items-center justify-content-center">
+                Drop Colors Here! ✨
+            </div>
+        </div>
+
+        <div class="fact-card" id="factCard">
+            <h4 class="text-success mb-3">🎉 Color Magic Fact!</h4>
+            <p id="factText" class="mb-0"></p>
+        </div>
+
+        <div class="text-center mt-4">
+            <button class="gradient-btn" onclick="resetGame()">
+                🔄 Mix New Colors
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const colorMixer = {
+            red: { 
+                blue: ['purple', '🟣'], 
+                yellow: ['orange', '🟠'],
+                green: ['brown', '🟤']
+            },
+            blue: { 
+                red: ['purple', '🟣'],
+                yellow: ['green', '🟢'],
+                green: ['teal', '🔵']
+            },
+            yellow: { 
+                red: ['orange', '🟠'],
+                blue: ['green', '🟢'],
+                green: ['lime', '💚']
+            },
+            green: {
+                red: ['brown', '🟤'],
+                blue: ['teal', '🔵'],
+                yellow: ['lime', '💚']
+            }
+        };
+
+        const colorFacts = {
+            purple: "Purple represents creativity and magic! ✨",
+            green: "Green is the color of nature and new beginnings! 🌱",
+            orange: "Orange combines the energy of red and happiness of yellow! 🌞",
+            teal: "Teal symbolizes calmness and sophistication! 🌊",
+            lime: "Lime green represents youthfulness and vitality! 🍃",
+            brown: "Brown represents stability and the earth! 🌍"
+        };
+
+        let currentColors = [];
+        let gameState = { score: 0, time: 0 };
+        let timerInterval;
+
+        // Drag and Drop Handlers
+        document.querySelectorAll('.base-color').forEach(color => {
+            color.addEventListener('dragstart', handleDragStart);
+            color.addEventListener('dragend', handleDragEnd);
+        });
+
+        const mixArea = document.getElementById('mixArea');
+        mixArea.addEventListener('dragover', handleDragOver);
+        mixArea.addEventListener('drop', handleDrop);
+
+        function handleDragStart(e) {
+            e.target.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', e.target.dataset.color);
+            createSparkles(e.clientX, e.clientY);
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            mixArea.classList.add('active');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            mixArea.classList.remove('active');
+            
+            const color = e.dataTransfer.getData('text/plain');
+            currentColors.push(color);
+            createSparkles(e.clientX, e.clientY);
+            
+            if(currentColors.length === 2) {
+                mixColors(currentColors);
+                currentColors = [];
+            }
+        }
+
+        function mixColors(colors) {
+            const [color1, color2] = colors.sort();
+            const result = colorMixer[color1][color2];
+            
+            if(result) {
+                gameState.score++;
+                document.getElementById('score').textContent = gameState.score;
+                showResult(result);
+                showColorFact(result[0]);
+                createColorBubble(result);
+            }
+        }
+
+        function showResult([color, emoji]) {
+            const result = document.createElement('div');
+            result.className = `result-bubble bg-${color}`;
+            result.innerHTML = emoji;
+            mixArea.appendChild(result);
+            
+            setTimeout(() => {
+                result.remove();
+            }, 2000);
+        }
+
+        function showColorFact(color) {
+            const factCard = document.getElementById('factCard');
+            factCard.style.display = 'block';
+            document.getElementById('factText').textContent = colorFacts[color];
+            
+            setTimeout(() => {
+                factCard.style.display = 'none';
+            }, 4000);
+        }
+
+        function createColorBubble([color, emoji]) {
+            const bubble = document.createElement('div');
+            bubble.className = `color-blob bg-${color}`;
+            bubble.style.left = `${Math.random() * 80}%`;
+            bubble.style.top = `${Math.random() * 80}%`;
+            bubble.innerHTML = emoji;
+            document.body.appendChild(bubble);
+
+            setTimeout(() => {
+                bubble.remove();
+            }, 3000);
+        }
+
+        function createSparkles(x, y) {
+            const sparkles = document.createElement('div');
+            sparkles.className = 'sparkles';
+            sparkles.style.width = '50px';
+            sparkles.style.height = '50px';
+            sparkles.style.left = `${x - 25}px`;
+            sparkles.style.top = `${y - 25}px`;
+            document.body.appendChild(sparkles);
+            
+            setTimeout(() => sparkles.remove(), 1000);
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                gameState.time++;
+                const minutes = String(Math.floor(gameState.time / 60)).padStart(2, '0');
+                const seconds = String(gameState.time % 60).padStart(2, '0');
+                document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+            }, 1000);
+        }
+
+        function resetGame() {
+            gameState = { score: 0, time: 0 };
+            document.getElementById('score').textContent = '0';
+            document.getElementById('timer').textContent = '00:00';
+            clearInterval(timerInterval);
+            startTimer();
+            document.querySelectorAll('.result-bubble, .color-blob').forEach(el => el.remove());
+        }
+
+        // Initialize game
+        startTimer();
+    </script>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

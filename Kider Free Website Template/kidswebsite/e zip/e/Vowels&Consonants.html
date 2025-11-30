@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vowels and Consonants</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
+            background-image: url(https://img.freepik.com/premium-vector/vector-full-color-abstract-background_934801-246.jpg?semt=ais_hybrid&w=740);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .container-inner{
+            max-width: 1200px;
+            margin: 0px auto;
+        }
+        .acc-container {
+            background: #2756A1;
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+        }
+        h2.section-heading{
+            font-size: 30px;
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        p.section-text{
+            font-size: 24px;
+            color: #ffffff;
+        }
+        .acc-image img{
+            max-width: 100%;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .bounce {
+            animation: bounce 1.5s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <body>
+        <div class="container">
+            <div class="container-inner text-center mt-5">
+                <!-- <h1 class="text-primary bounce">NOUN</h1> -->
+                <img src="https://i.ytimg.com/vi/5oRVTCnAZmw/maxresdefault.jpg" class="img-fluid rounded my-3" alt="vandc" width ='850' height ='300'>
+    
+                <iframe width="1200" height="550" src="https://www.youtube.com/embed/p75gr25EsVE?si=m1cIPUtN_C5ohxtz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                
+
+        <div class="accordion" id="vandcAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#vowels">Vowels</button>
+                </h2>
+                <div id="vowels" class="accordion-collapse collapse" data-bs-parent="#vandcAccordion">
+                    <div class="accordion-body animate">Vowels are special letters in the alphabet. <br>There are five vowels:<br>  
+                        A, E, I, O, U<br>
+                        These letters help us make words and sounds when we speak. Every word in English has at least one vowel.  <br>
+                        For example:  <br>
+                        - Apple (A is a vowel) <br> 
+                        - Elephant (E is a vowel) <br> 
+                        - Ice cream (I is a vowel) <br>
+                        - Orange (O is a vowel) <br>
+                        - Umbrella (U is a vowel)
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#consonants">Consonants</button>
+                </h2>
+                <div id="consonants" class="accordion-collapse collapse" data-bs-parent="#vandcAccordion">
+                    <div class="accordion-body animate">Consonants are the letters in the alphabet that are not vowels.<br>
+                        There are 21 consonants:<br>
+                        B, C, D, F, G, H, J, K, L, M, N, P, Q, R, S, T, V, W, X, Y, Z<br>
+                        
+                        These letters help us form words along with vowels.<br>
+                        For example:<br>
+                        Ball (B, L are consonants)<br>
+                        Cat (C, T are consonants)<br>
+                        Dog (D, G are consonants)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $(".accordion-button").click(function() {
+                $(this).closest(".accordion-item").find(".accordion-body").fadeIn(500).css("color", "#007bff");
+            });
+
+            let colors = ["#ff5733", "#33ff57", "#3357ff", "#ff33a8", "#ffbd33"];
+            let index = 0;
+            setInterval(() => {
+                $(".highlight").css("color", colors[index]);
+                index = (index + 1) % colors.length;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

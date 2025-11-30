@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Kider - Preschool Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@600&family=Lobster+Two:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+   
+     <!-- jQuery and Bootstrap JS -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+     
+</head>
+<style>
+    /* Main Card Style */
+.subject-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.28);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 22px;
+    padding: 35px 25px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    height: 430px;                    /* Equal height for all cards */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;   /* Same alignment */
+    transition: 0.35s ease;
+}
+
+/* Hover */
+.subject-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.18);
+}
+
+/* Soft Gradients Matching Your Theme */
+.english-card {
+    background: linear-gradient(145deg, #6d84da, #8ea4ef);
+}
+.maths-card {
+    background: linear-gradient(145deg, #d2a768, #e3c58c);
+}
+.science-card {
+    background: linear-gradient(145deg, #4fa58a, #6ec2a2);
+}
+
+/* Icons */
+.subject-icon {
+    font-size: 50px;
+    color: #ffffffdd;
+    margin-bottom: 15px;
+}
+
+/* Title */
+.subject-card h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Topic List */
+.topic-list {
+    padding: 0;
+    list-style: none;
+    margin-top: 10px;
+}
+
+.topic-list li {
+    background: rgba(255, 255, 255, 0.32);
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+/* Buttons */
+.fun-btn {
+    padding: 2px 50px;
+    font-size: 16px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.30);
+    -webkit-backdrop-filter: blur(5px); /* Safari/iOS support */
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff !important;
+    transition: 0.3s ease;
+}
+
+.fun-btn:hover {
+    transform: scale(1.07);
+    background: rgba(255, 255, 255, 0.45);
+}
+
+</style>
+
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Navbar Start -->
+       <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5 py-lg-0">
+    <a href="home.html" class="navbar-brand">
+        <h1 class="m-0 text-primary"><i class="fa fa-book-reader me-3"></i>LittleExplorers</h1>
+    </a>
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" 
+            aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav mx-auto">
+            <a href="home.html" class="nav-item nav-link active" aria-current="page">Home</a>
+            
+            <!-- Quiz Dropdown -->
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" 
+                   data-bs-toggle="dropdown" aria-expanded="false" role="button">
+                    <i class="fa fa-question-circle me-2"></i>Quiz
+                </a>
+                <div class="dropdown-menu border-0 shadow-lg rounded-3 py-2" style="min-width: 200px;">
+                    <a href="quiz/quiz_class_1math.html" class="dropdown-item d-flex align-items-center text-primary-hover py-2" 
+                       target="_blank">
+                        <i class="fa fa-calculator me-3 text-muted"></i>Math
+                    </a>
+                    <a href="quiz/class1_eng.html" class="dropdown-item d-flex align-items-center text-primary-hover py-2" 
+                       target="_blank">
+                        <i class="fa fa-language me-3 text-muted"></i>English
+                    </a>
+                    <a href="quiz/science.html" class="dropdown-item d-flex align-items-center text-primary-hover py-2" 
+                       target="_blank">
+                        <i class="fa fa-flask me-3 text-muted"></i>Science
+                    </a>
+                </div>
+                
+            </div>
+
+            <!-- Study Time Dropdown -->
+            <div class="nav-item dropdown dropdown-hover">
+                <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" 
+                   data-bs-toggle="dropdown" aria-expanded="false" role="button">
+                    <i class="fa fa-book me-2"></i>Study Time
+                </a>
+                <div class="dropdown-menu border-0 shadow-lg rounded-3 py-2" style="min-width: 240px;">
+                    <!-- English Nested Dropdown -->
+                    <div class="dropdown-submenu">
+                        <a href="#" class="dropdown-item d-flex justify-content-between align-items-center text-primary-hover py-2" 
+                           data-bs-toggle="dropdown" role="button">
+                            <span>
+                                <i class="fa fa-language me-2 text-primary"></i>English
+                            </span>
+                            <i class="fa fa-angle-right ms-2"></i>
+                        </a>
+                        <div class="dropdown-menu border-0 shadow-lg rounded-3 py-2" 
+                             style="left: 100%; margin-top: -10px; min-width: 220px;">
+                            <a href="e zip/e/Vowels&Consonants.html" class="dropdown-item d-flex align-items-center text-primary-hover py-2" 
+                               target="_blank">
+                                <i class="fa fa-comments me-3 text-muted"></i>Vowels & Consonants
+                            </a>
+                            <a href="e zip/e/Noun.html" class="dropdown-item d-flex align-items-center text-primary-hover py-2" 
+                               target="_blank">
+                                <i class="fa fa-file-text me-3 text-muted"></i>Noun
+                            </a>
+                            <a href="e zip/e/English notes.html" class="dropdown-item d-flex align-items-center text-primary-hover py-2" 
+                               target="_blank">
+                                <i class="fa fa-star me-3 text-warning"></i>English Notes⭐
+                            </a>
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+            </div>
+
+            <!-- Games Dropdown -->
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" 
+                   data-bs-toggle="dropdown" aria-expanded="false" role="button">
+                    <i class="fa fa-gamepad me-2"></i>Games
+                </a>
+                <div class="dropdown-menu border-0 shadow-lg rounded-3 py-2" style="min-width: 200px;">
+                    <a href="games.html" class="dropdown-item d-flex align-items-center text-primary-hover py-2">
+                        <i class="fa fa-puzzle-piece me-3 text-muted"></i>Puzzle
+                    </a>
+                    <a href="str.html" class="dropdown-item d-flex align-items-center text-primary-hover py-2">
+                        <i class="fa fa-chess me-3 text-muted"></i>Strategy
+                    </a>
+                </div>
+            </div>
+
+            <a href="contact.html" class="nav-item nav-link d-flex align-items-center">
+                <i class="fa fa-envelope me-2"></i>Contact Us
+            </a>
+        </div>
+        
+        <div class="d-none d-lg-block">
+            <a href="#" class="btn btn-gradient rounded-pill px-4 d-flex align-items-center" 
+               id="loginBtn" role="button">
+                <i class="fa fa-user-circle me-2"></i> Login
+            </a>
+        </div>
+    </div>
+</nav>
+        
+        <!-- Login Modal (Hidden by Default) -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 class="text-center text-primary">Welcome Back!</h2>
+                <p class="text-center text-muted">Login to continue your journey.</p>
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-gradient w-100">Login</button>
+                </form>
+                <div class="text-center mt-2">
+                    <a href="#">Forgot Password?</a> | <a href="register.html">Sign Up</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- jQuery and Bootstrap JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- JavaScript for Modal and Login Handling -->
+       <script>
+$(document).ready(function(){
+    // Helper - check login state
+    function isLoggedIn() {
+        return localStorage.getItem('isLoggedIn') === 'true';
+    }
+
+    // Expose a logout function (optional — add a logout link that calls this)
+    window.logoutUser = function() {
+        localStorage.removeItem('isLoggedIn');
+        // optionally redirect or refresh
+        location.reload();
+    };
+
+    // Show login modal (you already open with #loginBtn)
+    var modal = $("#loginModal");
+
+    $("#loginBtn").click(function(e){
+        e.preventDefault();
+        modal.fadeIn();
+    });
+
+    $(".close").click(function(){
+        modal.fadeOut();
+    });
+
+    $(window).click(function(event){
+        if ($(event.target).is(modal)) {
+            modal.fadeOut();
+        }
+    });
+
+    // Updated login form submit
+    $("#loginForm").submit(function(event){
+        event.preventDefault();
+        let email = $("#email").val().trim();
+        let password = $("#password").val().trim();
+
+        // Replace this with your validation logic
+        if(email === "test@example.com" && password === "password123"){
+            // mark logged in
+            localStorage.setItem('isLoggedIn', 'true');
+
+            // optional: store user email
+            localStorage.setItem('userEmail', email);
+
+            alert("Login Successful!");
+            modal.fadeOut();
+
+            // if you want to redirect to dashboard:
+            window.location.href = "dashboard.html";
+        } else {
+            alert("Invalid email or password!");
+        }
+    });
+
+    // Intercept clicks on protected elements
+    $(document).on('click', '.requires-auth', function(e){
+        // allow if user is logged in
+        if (isLoggedIn()) return true;
+
+        // Not logged in: prevent navigation and show login modal
+        e.preventDefault();
+
+        // Optionally show a tooltip or message before opening modal
+        // open login modal
+        modal.fadeIn();
+
+        return false;
+    });
+
+    // Visual: disable protected links if not logged in
+    function markProtected() {
+        if (!isLoggedIn()) {
+            $('.requires-auth').each(function(){
+                // add pointer cursor + title, and aria-disabled
+                $(this).attr('aria-disabled', 'true');
+                $(this).css('opacity', '0.95'); // keep visible, but user must login
+                // optional: add a small lock icon
+                if (!$(this).find('.lock-icon').length) {
+                    $(this).prepend('<i class="fa fa-lock lock-icon me-2" aria-hidden="true"></i>');
+                }
+            });
+        } else {
+            // remove lock icons when logged in
+            $('.requires-auth').find('.lock-icon').remove();
+            $('.requires-auth').removeAttr('aria-disabled');
+        }
+    }
+
+    markProtected();
+
+    // Run this to update UI when login state changes in same tab
+    window.addEventListener('storage', function(e){
+        if (e.key === 'isLoggedIn') markProtected();
+    });
+});
+</script>
+
+        <!-- Navbar End -->
+
+        
+
+
+        <!-- Carousel Start -->
+        <div class="container-fluid p-0 mb-5">
+            <div class="owl-carousel header-carousel position-relative">
+                <div class="owl-carousel-item position-relative">
+                    <img class="img-fluid" src="img/carousel-1.jpg" alt="">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(0, 0, 0, .2);">
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-10 col-lg-8">
+                                    <h1 class="display-2 text-white animated slideInDown mb-4">Explore, Discover, and Learn!</h1>
+                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">“Education is the passport to the future, for tomorrow belongs to those who prepare for it today.”  </p>
+                                    <a href="" class="btn btn-primary rounded-pill py-sm-3 px-sm-5 me-3 animated slideInLeft">Learn More</a>
+                                    <a href="" class="btn btn-dark rounded-pill py-sm-3 px-sm-5 animated slideInRight">Our Classes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="owl-carousel-item position-relative">
+                    <img class="img-fluid" src="img/carousel-2.jpg" alt="">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(0, 0, 0, .2);">
+                        <div class="container">
+                            <div class="row justify-content-start">
+                                <div class="col-10 col-lg-8">
+                                    <h1 class="display-2 text-white animated slideInDown mb-4">Make A Brighter Future For Your Child</h1>
+                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">It is designed to be an engaging and fun place for kids to explore new things and learn valuable skills. We offer a variety of interactive games, educational videos, and exciting activities that make learning enjoyable and accessible for children</p>
+                                    <a href="" class="btn btn-primary rounded-pill py-sm-3 px-sm-5 me-3 animated slideInLeft">Learn More</a>
+                                    <a href="" class="btn btn-dark rounded-pill py-sm-3 px-sm-5 animated slideInRight">Our Classes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel End -->
+
+
+        <!-- Facilities Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                    <h1 class="mb-3">Thanks To Get Started With us
+                        
+                       
+                    </h1>
+                    <p>We are excited to be a part of your child's learning adventure, where fun meets education. Our platform is designed to inspire curiosity, creativity, and confidence in young minds. Let’s make learning an exciting experience together!"</p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="facility-item">
+                            <div class="facility-icon bg-primary">
+                                
+                                <i class="fas fa-gamepad fa-3x text-primary"></i>
+                                
+                            </div>
+                            <div class="facility-text bg-primary">
+                                <h3 class="text-primary mb-3">Fun Games</h3>
+                                <p class="mb-0">. Our games are designed to be both entertaining and educational, ensuring that kids learn while having fun!"</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="facility-item">
+                            <div class="facility-icon bg-success">
+                                 <i class="fas fa-brain fa-3x text-success"></i>
+                               
+
+                                
+                            </div>
+                            <div class="facility-text bg-success">
+                                <h3 class="text-success mb-3">Quiz</h3>
+                                <p class="mb-0">"Quizzes make learning fun and engaging! They help kids test their knowledge, think critically, and improve memory while enjoying a challenge."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                        <div class="facility-item">
+                            <div class="facility-icon bg-warning">
+                                <i class="fas fa-scroll fa-3x text-warning"></i>
+
+                                
+                            </div>
+                            <div class="facility-text bg-warning">
+                                <h3 class="text-warning mb-3">Moral Stories</h3>
+                                <p class="mb-0">"Moral stories teach valuable life lessons through engaging tales. They help children understand kindness, honesty, and respect in a fun and meaningful way."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                        <div class="facility-item">
+                            <div class="facility-icon bg-info">
+                               
+                                <i class="fa fa-chalkboard-teacher fa-3x text-info"></i>
+                                
+                            </div>
+                            <div class="facility-text bg-info">
+                                <h3 class="text-info mb-3">Positive Learning</h3>
+                                <p class="mb-0">"Positive learning creates a joyful and motivating environment where kids feel encouraged to explore, grow, and develop a love for learning."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Facilities End -->
+
+
+        <!-- About Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <h1 class="mb-4">Learn More About Our Work And Our Cultural Activities</h1>
+                        <p>We believe in a holistic approach to learning, where education goes beyond books. Through engaging programs, interactive lessons, and fun cultural activities, we inspire creativity, teamwork, and a deep appreciation for values and traditions. Join us in making learning an enriching and joyful experience for every child!"
+
+                            </p>
+                        <p class="mb-4"> By learning through play, children develop essential skills while enjoying every moment of their educational journey. Join us in making learning an exciting adventure!".</p>
+                        <div class="row g-4 align-items-center">
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-6 about-img wow fadeInUp" data-wow-delay="0.5s">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <img class="img-fluid w-75 rounded-circle bg-light p-3" src="img/about-1.jpg" alt="">
+                            </div>
+                            <div class="col-6 text-start" style="margin-top: -150px;">
+                                <img class="img-fluid w-100 rounded-circle bg-light p-3" src="img/about-2.jpg" alt="">
+                            </div>
+                            <div class="col-6 text-end" style="margin-top: -150px;">
+                                <img class="img-fluid w-100 rounded-circle bg-light p-3" src="img/about-3.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+
+
+        <!-- Call To Action Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="bg-light rounded">
+                    <div class="row g-0">
+                        <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s" style="min-height: 400px;">
+                            <div class="position-relative h-100">
+                                <img class="position-absolute w-100 h-100 rounded call-to-action-img" src="img/call-to-action.jpg" alt="Call to action image">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                            <div class="h-100 d-flex flex-column justify-content-center p-5">
+                                <h1 class="mb-4">Special Attention to every children</h1>
+                                <p class="mb-4">"We give special attention to every child by creating a nurturing and engaging learning environment. Through interactive activities, personalized guidance, and creative teaching methods, we ensure that each child receives the knowledge they need in a fun and effective way. Our focus is on building curiosity, confidence, and a love for learning, helping them grow and explore at their own pace."
+                                </p>
+                                <a class="btn btn-primary py-3 px-5" href="">Get Started Now<i class="fa fa-arrow-right ms-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Call To Action End -->
+
+
+        <!-- Classes Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                    <h1 class="mb-3">Our Classes</h1>
+                    <p><b>Our classes focus on providing a strong foundation in three key subjects: Language, Math, and Science.Through interactive lessons, fun activities, and engaging content, we make learning enjoyable and effective for kids..</b></p>
+                </div>
+               
+                                <div class="row justify-content-center">
+                                    <!-- English Card -->
+                                    <div class="col-lg-4">
+                                        <div class="subject-card english-card">
+                                            <div class="floating-shapes">
+                                                <div class="shape" style="width: 40px; height: 40px; left: 10%; animation-delay: 0s;"></div>
+                                                <div class="shape" style="width: 30px; height: 30px; left: 30%; animation-delay: 2s;"></div>
+                                                <div class="shape" style="width: 50px; height: 50px; left: 70%; animation-delay: 4s;"></div>
+                                            </div>
+                                            <div class="card-content text-center">
+                                                <i class="fas fa-book-open subject-icon"></i>
+                                                <h2 class="display-4 mb-4">English Fun</h2>
+                                                <ul class="topic-list">
+                                                    <li>Magic Alphabet</li>
+                                                    <li>Story Time</li>
+                                                    <li>Sing Along</li>
+                                                    <li>Word Games</li>
+                                                </ul>
+                                                
+                                                   
+                                                    <a class="btn fun-btn mt-3 text-white" href="#">
+                                                    <i class="fas fa-gamepad"></i> Start Magic
+                                                </a>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Maths Card -->
+                                    <div class="col-lg-4">
+                                        <div class="subject-card maths-card">
+                                            <div class="floating-shapes">
+                                                <div class="shape" style="width: 50px; height: 50px; left: 20%; animation-delay: 1s;"></div>
+                                                <div class="shape" style="width: 40px; height: 40px; left: 60%; animation-delay: 3s;"></div>
+                                            </div>
+                                            <div class="card-content text-center">
+                                                <i class="fas fa-calculator subject-icon"></i>
+                                                <h2 class="display-4 mb-4">Math Magic</h2>
+                                                <ul class="topic-list">
+                                                    <li>Number Friends</li>
+                                                    <li>Shape Hunt</li>
+                                                    <li>Counting Games</li>
+                                                    <li>Puzzle Time</li>
+                                                </ul>
+                                                <a class="btn fun-btn mt-3 text-white" href="quiz/quiz_class_1math.html">
+                                                    <i class="fas fa-gamepad"></i> Play Now
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Science Card -->
+                                    <div class="col-lg-4">
+                                        <div class="subject-card science-card">
+                                            <div class="floating-shapes">
+                                                <div class="shape" style="width: 60px; height: 60px; left: 40%; animation-delay: 2s;"></div>
+                                            </div>
+                                            <div class="card-content text-center">
+                                                <i class="fas fa-leaf subject-icon"></i>
+                                                <h2 class="display-4 mb-4">Science World</h2>
+                                                <ul class="topic-list">
+                                                    <li>Animal Friends</li>
+                                                    <li>Plant Growth</li>
+                                                    <li>Weather Watch</li>
+                                                    <li>Fun Experiments</li>
+                                                </ul>
+                                               
+                                                 <a class="btn fun-btn mt-3 text-white" href=" quiz/science.html">
+                                                    <i class="fas fa-gamepad"></i> Explore Now
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                                   
+                                
+        <!-- Appointment End -->
+
+
+        <!-- Team Start -->
+        <div class="container py-5">
+            <div class="daily-card p-4 text-center">
+                <h1 class="text-white mb-4">🎉 Fun Facts!🎈</h1>
+                
+                <div class="progress-bar mb-4">
+                    <div class="progress-fill bg-white" style="width: 0%"></div>
+                </div>
+                
+                <div id="content-container" class="mb-4">
+                    <div class="content-text lead mb-3"></div>
+                    <div class="word-type badge rounded-pill bg-primary fs-6"></div>
+                </div>
+                
+                <div class="emoji-buttons mt-4">
+                    <span class="emoji-button me-3" onclick="animateContent('🦄')">🦄</span>
+                    <span class="emoji-button me-3" onclick="animateContent('🚀')">🚀</span>
+                    <span class="emoji-button" onclick="animateContent('🌈')">🌈</span>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            
+                // Kid-friendly content
+                const funFacts = [
+                    "A group of unicorns is called a blessing! 🦄✨",
+                    "Octopuses have blue blood and three hearts! 🐙💙",
+                    "Bananas are berries, but strawberries aren't! 🍌🍓",
+                    "Honey never spoils – you can eat 3000-year-old honey! 🍯⏳"
+                ];
+            
+                const wordsOfTheDay = [
+                    { word: "Friendship", emoji: "👫", definition: "The special bond between friends" },
+                    { word: "Adventure", emoji: "🗺️", definition: "An exciting or daring experience" },
+                    { word: "Kindness", emoji: "💖", definition: "Being friendly and caring to others" },
+                    { word: "Discovery", emoji: "🔍", definition: "Finding something new and exciting" }
+                ];
+            
+                // Interactive functions
+                function animateContent(emoji) {
+                    $("#content-container").addClass('bounce');
+                    setTimeout(() => {
+                        $("#content-container").append(`<div class="floating-emoji">${emoji}</div>`);
+                        setTimeout(() => $(".floating-emoji").remove(), 1000);
+                        $("#content-container").removeClass('bounce');
+                    }, 300);
+                }
+            
+                function updateProgress() {
+                    const now = new Date();
+                    const lastUpdate = new Date(localStorage.getItem('lastUpdate'));
+                    const elapsed = now - lastUpdate;
+                    const percent = Math.min((elapsed / 86400000) * 100, 100);
+                    $(".progress-fill").css('width', percent + '%');
+                }
+            
+                function updateDailyContent(forceUpdate = false) {
+                    const now = new Date();
+                    const lastUpdate = localStorage.getItem('lastUpdate');
+                    let contentIndex = parseInt(localStorage.getItem('contentIndex')) || 0;
+                    const storedContent = JSON.parse(localStorage.getItem('currentContent'));
+                    const storedType = localStorage.getItem('contentType');
+            
+                    // Always show content immediately on first load
+                    if (!storedContent) forceUpdate = true;
+            
+                    if (forceUpdate || !lastUpdate || (now - new Date(lastUpdate)) >= 86400000) {
+                        contentIndex = (contentIndex + 1) % 2;
+                        const isWord = contentIndex === 0;
+                        const content = isWord 
+                            ? wordsOfTheDay[Math.floor(Math.random() * wordsOfTheDay.length)]
+                            : funFacts[Math.floor(Math.random() * funFacts.length)];
+            
+                        localStorage.setItem('currentContent', JSON.stringify(content));
+                        localStorage.setItem('contentType', isWord ? 'word' : 'fact');
+                        localStorage.setItem('lastUpdate', now.toISOString());
+                        localStorage.setItem('contentIndex', contentIndex);
+                        
+                        updateDisplay(content, isWord);
+                    } else if (storedContent) {
+                        updateDisplay(storedContent, storedType === 'word');
+                    }
+                    
+                    updateProgress();
+                }
+            
+                function updateDisplay(content, isWord) {
+                    if (typeof content === 'string') {
+                        // Handle fact string
+                        $(".content-text").html(`<div class="display-4">📚</div>${content}`);
+                        $(".word-type").text("Amazing Fact!");
+                    } else {
+                        // Handle word object
+                        $(".content-text").html(
+                            `<span class="display-4">${content.emoji}</span><br>` +
+                            `<h2>${content.word}</h2>${content.definition}`
+                        );
+                        $(".word-type").text("Word of the Day");
+                    }
+                }
+            
+                // Initial setup
+                $(document).ready(function() {
+                    // Immediate content display
+                    const initialContent = JSON.parse(localStorage.getItem('currentContent'));
+                    const initialType = localStorage.getItem('contentType');
+                    
+                    if (initialContent) {
+                        updateDisplay(initialContent, initialType === 'word');
+                    }
+                    
+                    // Force update check on first load
+                    updateDailyContent(true);
+                    
+                    // Set regular checks
+                    setInterval(() => updateDailyContent(), 3600000); // Check hourly
+                    setInterval(updateProgress, 60000); // Update progress every minute
+                });
+            
+        </script>
+        <!-- Team End -->
+
+
+        <!-- Testimonial Start -->
+        <div class="container py-5">
+            <div class="daily-card p-4 text-center">
+                <!-- Existing content here -->
+                
+                <div class="progress-tracker">
+                    <div class="time-text">🚀 Next surprise in: <span id="time-remaining">24h 00m</span></div>
+                    <div class="progress-container">
+                        <div class="progress-bar-custom" style="width: 0%">
+                            <div class="star" style="left: 10%; top: 20%"></div>
+                            <div class="star" style="left: 30%; top: 70%"></div>
+                            <div class="star" style="left: 50%; top: 40%"></div>
+                            <div class="star" style="left: 70%; top: 10%"></div>
+                            <div class="star" style="left: 90%; top: 60%"></div>
+                        </div>
+                        <div class="rocket-icon" id="rocket">🚀</div>
+                    </div>
+                </div>
+        
+                <!-- Rest of your content -->
+            </div>
+        </div>
+        
+        <script>
+            // Previous code here...
+        
+            function updateProgress() {
+                const now = new Date();
+                const lastUpdate = new Date(localStorage.getItem('lastUpdate'));
+                const elapsed = now - lastUpdate;
+                const remaining = 86400000 - elapsed;
+                const percent = Math.min((elapsed / 86400000) * 100, 100);
+        
+                // Update progress bar and rocket position
+                $(".progress-bar-custom").css('width', percent + '%');
+                $("#rocket").css('left', percent + '%');
+                
+                // Update time remaining display
+                const hours = Math.floor(remaining / 3600000);
+                const minutes = Math.floor((remaining % 3600000) / 60000);
+                $("#time-remaining").html(
+                    `${hours}h ${minutes}m <span class="fs-4">${getTimeEmoji(hours)}</span>`
+                );
+        
+                // Add rocket animation
+                $("#rocket").css('animation', 'rocketMove 0.8s infinite');
+            }
+        
+            function getTimeEmoji(hours) {
+                if (hours >= 22) return '🌙';
+                if (hours >= 18) return '🌆';
+                if (hours >= 12) return '🌞';
+                if (hours >= 6) return '🌅';
+                return '🌜';
+            }
+        
+            // Update progress every minute
+            setInterval(updateProgress, 60000);
+        </script>
+        
+        <!-- Testimonial End -->
+
+
+        <!-- Footer Start -->
+        <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-lg-3 col-md-6">
+                        <h3 class="text-white mb-4">Get In Touch</h3>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Dehradun,Uttarakhand,India.</p>
+                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>LittleExplorers@gmail.com</p>
+                        <div class="d-flex pt-2">
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h3 class="text-white mb-4">Quick Links</h3>
+                        <a class="btn btn-link text-white-50" href="">About Us</a>
+                        <a class="btn btn-link text-white-50" href="">Contact Us</a>
+                        <a class="btn btn-link text-white-50" href="">Our Services</a>
+                        <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
+                        <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h3 class="text-white mb-4">Photo Gallery</h3>
+                        <div class="row g-2 pt-2">
+                            <div class="col-4">
+                                <img class="img-fluid rounded bg-light p-1" src="img/classes-1.jpg" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img class="img-fluid rounded bg-light p-1" src="img/classes-2.jpg" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img class="img-fluid rounded bg-light p-1" src="img/classes-3.jpg" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img class="img-fluid rounded bg-light p-1" src="img/classes-4.jpg" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img class="img-fluid rounded bg-light p-1" src="img/classes-5.jpg" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img class="img-fluid rounded bg-light p-1" src="img/classes-6.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h3 class="text-white mb-4">Newsletter</h3>
+                        <p>Your daily dose of wonder for curious minds!</p>
+                        <div class="position-relative mx-auto" style="max-width: 400px;">
+                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="copyright">
+                    <div class="row">
+                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                            &copy; <a class="border-bottom" href="#">LittleExplorers</a>, All Right Reserved. 
+							
+							<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+							Designed By <a class="border-bottom" href="#">our Team</a>
+                        </div>
+                        <div class="col-md-6 text-center text-md-end">
+                            <div class="footer-menu">
+                                <a href="">Home</a>
+                                <a href="">Cookies</a>
+                                <a href="">Help</a>
+                                <a href="">FQAs</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

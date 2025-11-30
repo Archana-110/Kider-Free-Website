@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 1 English Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="1engstyle.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+     <!-- Audio Elements -->
+     <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-times-158.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="correctSound">
+        <source src="https://assets.mixkit.co/active_preview/mixkit-correct-answer-tone-2870.wav" type="audio/wav">
+    </audio>
+    <audio id="wrongSound">
+        <source src="https://assets.mixkit.co/active_preview/mixkit-wrong-answer-fail-notification-946.wav" type="audio/wav">
+    </audio>
+
+    <!-- Music Control -->
+    <button id="musicToggle" class="btn btn-warning music-control">🎵 Toggle Music</button>
+    <button id="voiceToggle" class="btn btn-info position-fixed top-0 end-0 m-3">
+        🔈 Enable Voice
+    </button>
+
+    <div class="container mt-5">
+        <div class="quiz-container bg-light rounded p-4 shadow">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="score-board h4">📚 Score: <span id="score">0</span></div>
+                <div class="timer h4">⏳ <span id="timer">30</span>s</div>
+            </div>
+            
+            <div id="questionSection">
+                <div id="question" class="question text-center mb-4 fs-4 animate__animated"></div>
+                <div id="options" class="row justify-content-center gap-3 my-4"></div>
+                <div id="writingArea" class="writing-area d-none"></div>
+                <div id="feedback" class="text-center h5 mt-3" role="alert"></div>
+                <button id="nextBtn" class="btn btn-success mt-3 d-block mx-auto d-none pulse-animation">
+                    Next Question ➡️
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Music Module
+        const MusicModule = (() => {
+            const bgMusic = document.getElementById('bgMusic');
+            const correctSound = document.getElementById('correctSound');
+            const wrongSound = document.getElementById('wrongSound');
+            let musicEnabled = true;
+
+            const init = () => {
+                $('#musicToggle').click(() => {
+                    musicEnabled = !musicEnabled;
+                    musicEnabled ? bgMusic.play() : bgMusic.pause();
+                    $('#musicToggle').text(musicEnabled ? '🎵 Music On' : '🔇 Music Off');
+                });
+                bgMusic.play();
+            };
+
+            const playCorrect = () => correctSound.play();
+            const playWrong = () => wrongSound.play();
+
+            return { init, playCorrect, playWrong };
+        })();
+
+        // Voice Synthesis Module
+        const VoiceModule = (() => {
+            let synth = window.speechSynthesis;
+            let voiceEnabled = false;
+
+            const init = async () => {
+                await new Promise(resolve => {
+                    const checkVoices = () => {
+                        if (synth.getVoices().length) resolve();
+                        else setTimeout(checkVoices, 100);
+                    };
+                    checkVoices();
+                });
+                $('#voiceToggle').click(toggleVoice);
+            };
+
+            const toggleVoice = () => {
+                voiceEnabled = !voiceEnabled;
+                $('#voiceToggle').text(voiceEnabled ? '🔈 Voice On' : '🔇 Voice Off');
+                if (voiceEnabled) speak($('#question').text());
+            };
+
+            const speak = (text) => {
+                if (!voiceEnabled || !text) return;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.voice = synth.getVoices().find(v => v.lang === 'en-IN');
+                synth.speak(utterance);
+            };
+
+            return { init, speak, toggleVoice };
+        })();
+
+        // Game State Module
+        const GameState = (() => {
+            let state = {
+                currentQuestion: null,
+                score: 0,
+                timeLeft: 30,
+                timerId: null,
+                answered: false,
+                drawingCTX: null
+            };
+
+            return {
+                getState: () => state,
+                resetQuestionState: () => {
+                    state.answered = false;
+                    state.timeLeft = 30;
+                    if (state.drawingCTX) {
+                        state.drawingCTX.clearRect(0, 0, 
+                            state.drawingCTX.canvas.width, 
+                            state.drawingCTX.canvas.height
+                        );
+                    }
+                },
+                updateScore: (points) => {
+                    state.score += points;
+                    $('#score').text(state.score)
+                        .addClass('animate__rubberBand')
+                        .on('animationend', () => 
+                            $('#score').removeClass('animate__rubberBand'));
+                }
+            };
+        })();
+
+        // Quiz Data and Question Generation
+        const QuizData = {
+            pictureReading: [
+                {
+                    type: 'picture',
+                    img: "https://cdn.pixabay.com/photo/2017/09/26/13/31/apple-2788616_1280.jpg",
+                    question: "What do you see in the picture?",
+                    options: ["Apple", "Ant", "Airplane"],
+                    answer: "Apple"
+                },
+                {
+                    type: 'picture',
+                    img: "https://media.istockphoto.com/id/520410807/photo/cheeseburger.jpg?s=1024x1024&w=is&k=20&c=3GtPsBcuINgJqA63XtKA2iDVbyyb7vfgrQbX7rfzZ6U=",
+                    question: "What do you see in the picture?",
+                    options: ["Apple", "Burger", "Airplane"],
+                    answer: "Burger"
+                }
+            ],
+            grammar: [
+                {
+                    type: 'grammar',
+                    question: "Complete the sentence:",
+                    sentence: "The _ is red.",
+                    options: ["apple", "run", "happy"],
+                    answer: "apple"
+                },
+                {
+                    type: 'grammar',
+                    question: "Complete the sentence:",
+                    sentence: "The _ is Yellow.",
+                    options: ["apple", "Fun", "Sun"],
+                    answer: "Sun"
+                }
+            ]
+        };
+
+        const QuestionGenerator = {
+            getRandomQuestion() {
+                const categories = Object.keys(QuizData);
+                const category = categories[Math.floor(Math.random() * categories.length)];
+                return QuizData[category][Math.floor(Math.random() * QuizData[category].length)];
+            },
+
+            generateContent(question) {
+                switch(question.type) {
+                    case 'picture': return this.generatePictureQuestion(question);
+                    case 'grammar': return this.generateGrammarQuestion(question);
+                }
+            },
+
+            generatePictureQuestion(q) {
+                return {
+                    ...q,
+                    content: `
+                        <div class="text-center">
+                            <img src="${q.img}" class="img-fluid mb-3" 
+                                alt="${q.answer}" style="max-height: 200px;">
+                            <div class="d-flex gap-2 justify-content-center flex-wrap">
+                                ${q.options.map(opt => `
+                                    <button class="btn btn-outline-primary option-btn px-4">
+                                        ${opt}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>`
+                };
+            },
+
+            generateGrammarQuestion(q) {
+                return {
+                    ...q,
+                    content: `
+                        <div class="text-center">
+                            <h4 class="mb-3">${q.sentence.replace('_', '______')}</h4>
+                            <div class="d-flex gap-2 justify-content-center flex-wrap">
+                                ${q.options.map(opt => `
+                                    <button class="btn btn-outline-success option-btn px-4">
+                                        ${opt}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>`
+                };
+            }
+        };
+
+        // Display Module
+        const DisplayModule = (() => {
+            const showFeedback = (isCorrect) => {
+                let feedbackHtml;
+                if(isCorrect) {
+                    MusicModule.playCorrect();
+                    feedbackHtml = `
+                        <div class="animate__animated animate__bounceIn">
+                            🎉 Correct! Well done!
+                            <div class="animate__animated animate__tada">⭐</div>
+                        </div>
+                    `;
+                } else {
+                    MusicModule.playWrong();
+                    feedbackHtml = `
+                        <div class="animate__animated animate__shakeX">
+                            ❌ Oops! Correct answer: ${GameState.getState().currentQuestion.answer}
+                        </div>
+                    `;
+                }
+                $('#feedback')
+                    .addClass(isCorrect ? 'text-success' : 'text-danger')
+                    .html(feedbackHtml)
+                    .addClass('animate__bounceIn');
+                
+                $('#nextBtn').removeClass('d-none');
+                VoiceModule.speak(isCorrect ? "Correct!" : "Try again");
+            };
+
+            const init = async () => {
+                await VoiceModule.init();
+                bindEvents();
+                showQuestion();
+            };
+
+            const bindEvents = () => {
+                $('#nextBtn').click(showQuestion);
+                $('#options').on('click', '.option-btn', handleAnswer);
+            };
+
+            const showQuestion = () => {
+                GameState.resetQuestionState();
+                const question = QuestionGenerator.getRandomQuestion();
+                const generated = QuestionGenerator.generateContent(question);
+                GameState.getState().currentQuestion = generated;
+
+                clearDisplay();
+                renderQuestion(generated);
+                VoiceModule.speak(generated.question);
+                TimerModule.startTimer();
+            };
+
+            const clearDisplay = () => {
+                $('#question, #options, #feedback').empty();
+                $('#writingArea').addClass('d-none');
+                $('#nextBtn').addClass('d-none');
+            };
+
+            const renderQuestion = (q) => {
+                $('#question').text(q.question).addClass('animate__fadeIn');
+                $('#options').html(q.content);
+            };
+
+            const handleAnswer = (e) => {
+                const state = GameState.getState();
+                if (state.answered) return;
+                
+                state.answered = true;
+                TimerModule.stopTimer();
+                
+                const selected = $(e.target).text().trim().toLowerCase();
+                const correct = state.currentQuestion.answer.trim().toLowerCase();
+                const isCorrect = selected === correct;
+                
+                showFeedback(isCorrect);
+                if (isCorrect) GameState.updateScore(10);
+            };
+
+            return { init, showFeedback };
+        })();
+
+        // Timer Module
+        const TimerModule = (() => {
+            let timerId = null;
+
+            const startTimer = () => {
+                stopTimer();
+                let timeLeft = 30;
+                $('#timer').text(timeLeft).removeClass('text-danger');
+                
+                timerId = setInterval(() => {
+                    timeLeft--;
+                    $('#timer').text(timeLeft);
+                    
+                    if (timeLeft <= 10) {
+                        $('#timer').addClass('text-danger pulse-animation');
+                    }
+
+                    if (timeLeft <= 0) {
+                        stopTimer();
+                        const state = GameState.getState();
+                        if (!state.answered) {
+                            state.answered = true;
+                            DisplayModule.showFeedback(false);
+                            $('#nextBtn').removeClass('d-none');
+                        }
+                    }
+                }, 1000);
+            };
+
+            const stopTimer = () => {
+                clearInterval(timerId);
+                timerId = null;
+                $('#timer').removeClass('pulse-animation');
+            };
+
+            return { startTimer, stopTimer };
+        })();
+
+        // Initialize Application
+        $(document).ready(() => {
+            MusicModule.init();
+            DisplayModule.init();
+        });
+    </script>
+</body>
+</html>

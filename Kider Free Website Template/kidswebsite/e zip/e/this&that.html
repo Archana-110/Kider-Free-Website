@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THIS AND THAT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
+            background-image: url(https://img.freepik.com/premium-vector/vector-full-color-abstract-background_934801-246.jpg?semt=ais_hybrid&w=740);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .container-inner{
+            max-width: 1200px;
+            margin: 0px auto;
+        }
+        .acc-container {
+            background: #2756A1;
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+        }
+        h2.section-heading{
+            font-size: 30px;
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        p.section-text{
+            font-size: 24px;
+            color: #ffffff;
+        }
+        .acc-image img{
+            max-width: 100%;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .bounce {
+            animation: bounce 1.5s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <body>
+        <body>
+    <div class="container">
+        <div class="container-inner text-center mt-5">
+           <!-- <h1 class="text-primary bounce">NOUN</h1> -->
+            <img src="https://i.ytimg.com/vi/n4LYFsGuwEQ/maxresdefault.jpg" class="img-fluid rounded my-3" alt="This and That" width="800" height="300">
+
+            <iframe width="1200" height="550" src="https://www.youtube.com/embed/eUazfCkQq84?si=dCvuVlHmuD8wkmaB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            
+            
+            
+            <div class="acc-container row"> 
+                <h2 class="section-heading">THIS OR THAT</h2>
+                
+                <div class="acc-image col-6">
+                    <img src="https://static.vecteezy.com/system/resources/previews/002/184/762/original/cute-cartoon-children-studying-concept-design-free-vector.jpg" alt=""  width="400" height="400">
+                </div>
+                <div class="accordion col-6" id="thisorthat">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#this">THIS</button>
+                        </h2>
+                        <div id="this" class="accordion-collapse collapse" data-bs-parent="#thisorthat">
+                            <div class="accordion-body animate"> You use "this" when you are talking about one thing that is near you.<br> You can say "this" when you can touch it or see it nearby.<br>
+                                Examples : <br>
+                                1. This is my toy. (You are holding it or it’s very close.)
+                                <img src="https://media.istockphoto.com/vectors/little-girl-holding-brown-teddy-bear-vector-id682529002?k=20&m=682529002&s=612x612&w=0&h=G8W2Gaoxm8obk_uGFMMvXwGk50oto_FtbzHy_oFcblg=" class="img-fluid rounded my-3" alt="Dog" height = 80 width = 80>
+                                <br>
+                                2. This apple is red. (The apple is near you.)
+                                <img src="https://img.freepik.com/premium-vector/cartoon-boy-holding-apple_1057087-15985.jpg?w=2000" class="img-fluid rounded my-3" alt="School" height = 80 width = 80>
+        
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#that">THAT</button>
+                        </h2>
+                        <div id="that" class="accordion-collapse collapse" data-bs-parent="#thisorthat">
+                            <div class="accordion-body animate">You use "that" when you are talking about one thing that is not near you.<br> You can say "that" when you see it far, but cannot touch it.<br>
+                                Examples : <br>
+                                1.That is my ball. (The ball is across the room.)
+                                <img src="https://thumbs.dreamstime.com/b/basic-rgb-214858679.jpg" class="img-fluid rounded my-3" alt="Rahul" height = 60 width = 60>
+                                <br>
+                                2. That tree is big. (The tree is far away.)
+                                <img src="https://cdn3.vectorstock.com/i/1000x1000/07/27/a-boy-standing-near-the-giant-tree-vector-1560727.jpg" class="img-fluid rounded my-3" alt="Mumbai" height = 100 width = 100>
+                            </div>
+                        </div>
+        
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $(".accordion-button").click(function() {
+                $(this).closest(".accordion-item").find(".accordion-body").fadeIn(500).css("color", "#007bff");
+            });
+
+            let colors = ["#ff5733", "#33ff57", "#3357ff", "#ff33a8", "#ffbd33"];
+            let index = 0;
+            setInterval(() => {
+                $(".highlight").css("color", colors[index]);
+                index = (index + 1) % colors.length;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
