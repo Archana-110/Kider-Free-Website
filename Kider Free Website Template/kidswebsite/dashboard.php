@@ -1,6 +1,6 @@
 <?php
-session_start();
-require_once 'db_config.php';
+// Central session/DB bootstrap
+require_once __DIR__ . '/db_config.php';
 
 if (!isset($_SESSION['logged_in'])) {
     header("Location: login.php");
@@ -20,6 +20,7 @@ if (!isset($_SESSION['logged_in'])) {
             <a class="navbar-brand" href="#">Dashboard</a>
             <div class="navbar-nav ms-auto">
                 <span class="navbar-text me-3">Welcome, <?= htmlspecialchars($_SESSION['first_name']) ?>!</span>
+                <a class="nav-link" href="profile.php">Profile</a>
                 <a class="nav-link" href="logout.php">Logout</a>
             </div>
         </div>
